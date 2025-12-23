@@ -11,7 +11,6 @@ async function createAirplane(data) {
   } catch (error) {
     //model constraints validation i.e.,
     // didnt pass constraints check(validationError)
-    // console.log(error);
     if (error.name == "SequelizeValidationError") {
       let explanation = [];
       error.errors.forEach((err) => {
@@ -20,7 +19,6 @@ async function createAirplane(data) {
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
     //cant connect to sequelize
-    //console.log(error);
     throw new AppError(
       "Cannot create a new Airplane object",
       StatusCodes.INTERNAL_SERVER_ERROR

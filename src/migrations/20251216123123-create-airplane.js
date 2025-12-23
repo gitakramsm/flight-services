@@ -13,9 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          is: {
-            args: /^(?=.*[a-z])[a-z0-9 ]+$/i,
-          },
+          isAlphanumeric: true,
         },
       },
       capacity: {
