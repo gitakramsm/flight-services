@@ -10,8 +10,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.City, {
         foreignKey: "cityId",
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
+      });
+      this.hasMany(models.Flight, {
+        foreignKey: "departureAirportId",
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      });
+      this.hasMany(models.Flight, {
+        foreignKey: "arrivalAirportId",
+        onDelete: "cascade",
+        onUpdate: "cascade",
       });
     }
   }
