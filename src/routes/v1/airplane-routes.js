@@ -25,7 +25,7 @@ router.get(
 // /api/v1/airplanes/:id DELETE
 router.delete(
   "/:id",
-  CityMiddlewares.validateId,
+  AirplaneMiddleware.validateId,
   AirplaneController.destroyAirplane
 );
 

@@ -1,16 +1,15 @@
-const { AirplaneRepository } = require("../repositories");
 const { StatusCodes } = require("http-status-codes");
+
+const { AirportRepository } = require("../repositories");
 const AppError = require("../utils/errors/app-error");
 
-const airplaneRepository = new AirplaneRepository();
+const airportRepository = new AirportRepository();
 
-async function createAirplane(data) {
+async function createAirport(data) {
   try {
-    const airplane = await airplaneRepository.create(data);
-    return airplane;
+    const airport = await airportRepository.create(data);
+    return airport;
   } catch (error) {
-    //model constraints validation i.e.,
-    // didnt pass constraints check(validationError)
     if (error.name == "SequelizeValidationError") {
       let explanation = [];
       error.errors.forEach((err) => {
@@ -18,85 +17,84 @@ async function createAirplane(data) {
       });
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
-    //cant connect to sequelize
     throw new AppError(
-      "Cannot create a new Airplane object",
+      "Cannot create a new Airport object",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 }
 
-async function getAirplanes() {
+async function getAirports() {
   try {
-    const airplanes = await airplaneRepository.getAll();
-    return airplanes;
+    const airports = await airportRepository.getAll();
+    return airports;
   } catch (error) {
     throw new AppError(
-      "Cannot fetch data of all the airplanes",
+      "Cannot fetch data of all the airports",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 }
 
-async function getAirplane(id) {
+async function getAirport(id) {
   try {
-    const airplane = await airplaneRepository.get(id);
-    return airplane;
+    const airport = await airportRepository.get(id);
+    return airport;
   } catch (error) {
     if (error.statusCode == StatusCodes.NOT_FOUND) {
       throw new AppError(
-        "The airplane you requested is not present",
+        "The airport you requested is not present",
         error.statusCode
       );
     }
     throw new AppError(
-      "Cannot fetch data of the airplane",
+      "Cannot fetch data of the airport",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 }
 
-async function destroyAirplane(id) {
+async function destroyAirport(id) {
   try {
-    const response = await airplaneRepository.destroy(id);
+    const response = await airportRepository.destroy(id);
     return response;
   } catch (error) {
     if (error.statusCode == StatusCodes.NOT_FOUND) {
       throw new AppError(
-        "The airplane you requested to delete is not present",
+        "The airport you requested to delete is not present",
         error.statusCode
       );
     }
     throw new AppError(
-      "Cannot delete the airplane",
+      "Cannot destroy the airport",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 }
 
-async function updateAirplane(id, data) {
+async function updateAirport(id, data) {
   try {
-    const airplanes = await airplaneRepository.update(id, data);
-    return airplanes;
+    const airport = await airportRepository.update(id, data);
+    return airport;
   } catch (error) {
     console.log(error);
     if (error.statusCode == StatusCodes.NOT_FOUND) {
       throw new AppError(
-        "The airplane you requested to update is not present",
+        "The airport you requested to update is not present",
         error.statusCode
       );
     }
     throw new AppError(
-      "Cannot update data of the airplane",
+      "Cannot update data of the airport",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 }
 
 module.exports = {
-  createAirplane,
-  getAirplanes,
-  getAirplane,
-  destroyAirplane,
-  updateAirplane,
+  createAirport,
+  getAirports,
+  getAirport,
+  destroyAirport,
+  updateAirport,
 };
